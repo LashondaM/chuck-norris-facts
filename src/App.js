@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react'
+import axios from 'axios'
+import chuckMan from './chuckMan.jpg'
+class App extends Component {
+  state = {
+    quote: ''
+  }
+  componentDidMount =() => {
+    axios.get('https://api.chucknorris.io/jokes/random')
+      .then(res => {
+        console.log('response', res.data.value)
+        this.setState({
+          quote: res.data.value
+        })
+      })
+  }
+  getNewFact = () => {
+    axios.get('https://api.chucknorris.io/jokes/random')
+      .then(res => {
+        console.log('response', res.data.value)
+        this.setState({
+        quote: res.data.value
+      })
+    })
+  }
+  change = (e) => {
+    e.target.style.background = 'yellow';
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  leave = (e) => {
+    e.target.style.background= 'teal';
+  }
+
+  render () {
+    return(
+      <div>
+      <h1>Chuck Norris Facts</h1>
+      <img src={chuckMan} alt="chuck is here" />
+      <p className='fool'>{this.state.quote}</p>
+    <button onClick={ this.getNewFact} onMouseOver={this.change} onMouseLeave={this.leave}>get new fact</button>
     </div>
-  );
+    )
+  }
 }
-
-export default App;
+export default App
